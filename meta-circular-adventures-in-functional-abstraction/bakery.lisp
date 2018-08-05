@@ -7,10 +7,7 @@
 ;;;; The original post is down but a mirror can still be found here:
 ;;;; https://hackerfall.com/story/challenging-clojure-in-common-lisp
 ;;;;
-;;;; Instructions to run:
-;;;;
-;;;; (asdf:load-system :bakery)
-;;;; T
+;;;; Example of instructions to run the program:
 ;;;;
 ;;;; (use-package :bakery)
 ;;;; T
@@ -66,13 +63,13 @@
 ;;;; CAKE OBSERVER: Completed tasks now (DECORATE BAKE KNEAD).
 ;;;; CAKE OBSERVER: Cake is all done!
 
-(defpackage :bakery
-  ; import namespaces from the following packages
-  (:use :common-lisp :cl-actors :optima :bordeaux-threads :cells)
+(defpackage #:bakery
+  ;; import namespaces from the following packages
+  (:use #:common-lisp #:cl-actors #:optima #:bordeaux-threads #:cells)
 
-  ; bakery package exported symbols
+  ;; bakery package exported symbols
   (:export #:baker
-           :cake))
+           #:cake))
 
 (in-package :bakery)
 
