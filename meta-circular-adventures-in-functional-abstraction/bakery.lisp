@@ -83,9 +83,6 @@
 (defvar *all-ingredients-fu* nil)
 (defvar *all-dones-fu* nil)
 
-(declaim (sb-ext:muffle-conditions style-warning))
-(declaim (sb-ext:muffle-conditions sb-kernel:redefinition-with-defmethod))
-
 ;;; The model defines nodes and how edges connect them, to build a computation
 ;;; graph. Incidentally the model derives from the Common Lisp Object System
 ;;; (CLOS). Hence the Common Lisp object-oriented semantics and syntax hold.
@@ -163,9 +160,6 @@
 
    )
   )
-
-(declaim (sb-ext:unmuffle-conditions style-warning))
-(declaim (sb-ext:unmuffle-conditions sb-kernel:redefinition-with-defmethod))
 
 (defobserver batter-p ((self cake))
   "An observer on cell batter-p on instances of cake models"
