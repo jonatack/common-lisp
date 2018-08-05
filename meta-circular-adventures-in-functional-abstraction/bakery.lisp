@@ -23,7 +23,7 @@
 ;;;; (send mybaker '(:add :flour))
 ;;;; ; No value
 ;;;;
-;;;; From here on, see *inferior-lisp* buffer for program output:
+;;;; From here on, see *inferior-lisp* buffer for observer output:
 ;;;;
 ;;;; CAKE OBSERVER: Ingredients now (FLOUR).
 ;;;;
@@ -65,7 +65,6 @@
 ;;;; CAKE OBSERVER: Ingredients now (CANDLES SUGAR EGGS MILK FLOUR).
 ;;;; CAKE OBSERVER: Completed tasks now (DECORATE BAKE KNEAD).
 ;;;; CAKE OBSERVER: Cake is all done!
-;;;;
 
 (defpackage :bakery
   ; import namespaces from the following packages
@@ -96,10 +95,8 @@
 
 (defmodel cake ()
   (
-
    ;; Closures
    ;; ---------------------------------------------
-
    (allingredientsfu
     :cell nil
     :accessor allingredientsfu
@@ -131,7 +128,7 @@
    ;; ---------------------------------------------
 
    ;; A new ingredient is mixed in
-   (mixin  :initform (c-in nil))
+   (mixin :initform (c-in nil))
 
    ;; A new action is performed
    (action :accessor action :initform (c-in nil))
@@ -179,7 +176,7 @@
       (format t "~%CAKE OBSERVER: Batter now complete!")))
 
 (defobserver alldone-p ((self cake))
-  "An observer on cell alldone-p  on instances of cake models"
+  "An observer on cell alldone-p on instances of cake models"
   (if new-value
       (format t "~%CAKE OBSERVER: Cake is all done!")))
 
@@ -250,7 +247,7 @@
 
      (if (alldone-p mycake) ; cake already finished?
          (format t "~%ERROR: Cake is finished. Decline to do ~A." todo)
-         (if (member todo (dones  mycake)) ; todo already done?
+         (if (member todo (dones mycake)) ; todo already done?
              (format nil "~%ERROR: Already did ~A." todo)
 
              (cond ((equal todo :bake) ; bake only after kneading dough
@@ -270,7 +267,7 @@
 
     ; fall-through
     (_
-     (format t  "~%ERROR: recipe error."))
+     (format t "~%ERROR: recipe error."))
 
     )
 
