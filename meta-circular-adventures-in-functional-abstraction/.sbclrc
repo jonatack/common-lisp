@@ -39,59 +39,19 @@
 
   ;; Pattern Matching
   (asdf:load-system 'optima)
-  ;; (asdf:load-system 'trivia) ; drop-in faster, new replacement for optima
   (asdf:load-system 'cl-algebraic-data-type)
-  ;; (asdf:load-system 'abacus)
-  ;; (asdf:load-system 'cl-unification)
 
   ;; FRP (Functional Reactive Programming Framework)
-  (ql:quickload :cells)
-
-  ;; Functional Data Structures
-  (asdf:load-system 'fset)
-
-  ;; Functional Idioms Library
-  ;; (asdf:load-system 'folio)
-
+  (asdf:load-system 'cells)
 
   ;;; Concurrent Programming
   ;;; ======================
-
   ;; Actor Model
   (asdf:load-system 'cl-actors)
 
-  ;; CSP Concurrent Process Algebra
-  ;; (asdf:load-system 'chanl)
-  ;; (asdf:load-system 'calispel)
-
-  ;; Software Transactional Memory
-  ;; (asdf:load-system 'cl-stm)   ; original
-  ;; (asdf:load-system 'cl-stmx)  ; high performance
-
-
-  ;; Static Code Analysis
-  (asdf:load-system 'lisp-critic)
-
-  ;; Appease Paren Critics
-  ;; (asdf:load-system 'readable)
-
-
   ;;;  Default Namespaces
   ;;; ==================
-
   (use-package :cl-actors)
   (use-package :cells)
   (use-package :optima)
-  ;; (use-package :trivia) ; drop-in faster, new replacement for optima
-  (use-package :fset-user)
-  (use-package :lisp-critic)
-
-
-  ;;; Unit testing
-  ;;; ============
-
-  ;; (asdf:load-system 'fiveam)
-  ;; (asdf:load-system 'prove) ; another good unit-test library by fukumachi
-  ;; (asdf:load-system 'parachute) ; another good unit-test library by fukumachi
-  ;; (ql:quickload "clunit")
   )
