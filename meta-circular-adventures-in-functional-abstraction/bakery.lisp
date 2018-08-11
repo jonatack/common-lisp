@@ -6,62 +6,62 @@
 ;;;;
 ;;;; The original post is down but a mirror can still be found here:
 ;;;; https://hackerfall.com/story/challenging-clojure-in-common-lisp
-;;;;
-;;;; Example of instructions to run the program:
-;;;;
-;;;; (use-package :bakery)
-;;;; T
-;;;;
-;;;; (defvar mybaker (baker))
-;;;; CAKE OBSERVER: Ingredients now NIL.
-;;;; CAKE OBSERVER: Completed tasks now NIL.
-;;;; MYBAKER
-;;;;
-;;;; (send mybaker '(:add :flour))
-;;;; ; No value
-;;;;
-;;;; From here on, see *inferior-lisp* buffer for observer output:
-;;;;
-;;;; CAKE OBSERVER: Ingredients now (FLOUR).
-;;;;
-;;;; (send mybaker '(:act :knead))
-;;;; ; No value
-;;;; ERROR: Batter not ready. Can't knead dough.
-;;;;
-;;;; (send mybaker '(:add :milk))
-;;;; ; No value
-;;;; CAKE OBSERVER: Ingredients now (MILK FLOUR).
-;;;;
-;;;; (send mybaker '(:add :eggs))
-;;;; ; No value
-;;;; CAKE OBSERVER: Ingredients now (EGGS MILK FLOUR).
-;;;; CAKE OBSERVER: Batter now complete!
-;;;;
-;;;; (send mybaker '(:add :pepper))
-;;;; ; No value
-;;;; ERROR: recipe error.
-;;;;
-;;;; (send mybaker '(:add :milk))
-;;;; ; No value
-;;;; ERROR: Batter already complete. Don't need MILK.
-;;;;
-;;;; (send mybaker '(:act :knead))
-;;;; ; No value
-;;;; CAKE OBSERVER: Completed tasks now (KNEAD).
-;;;;
-;;;; (send mybaker '(:act :bake))
-;;;; ; No value
-;;;; CAKE OBSERVER: Completed tasks now (BAKE KNEAD).
-;;;;
-;;;; (send mybaker '(:add :sugar))
-;;;; ; No value
-;;;; CAKE OBSERVER: Ingredients now (SUGAR EGGS MILK FLOUR).
-;;;;
-;;;; (send mybaker '(:add :candles))
-;;;; ; No value
-;;;; CAKE OBSERVER: Ingredients now (CANDLES SUGAR EGGS MILK FLOUR).
-;;;; CAKE OBSERVER: Completed tasks now (DECORATE BAKE KNEAD).
-;;;; CAKE OBSERVER: Cake is all done!
+
+;;; Example of instructions to run the program:
+;;;
+;;; (use-package :bakery)
+;;; T
+;;;
+;;; (defvar mybaker (baker))
+;;; CAKE OBSERVER: Ingredients now NIL.
+;;; CAKE OBSERVER: Completed tasks now NIL.
+;;; MYBAKER
+;;;
+;;; (send mybaker '(:add :flour))
+;;; ; No value
+;;;
+;;; From here on, see *inferior-lisp* buffer for observer output:
+;;;
+;;; CAKE OBSERVER: Ingredients now (FLOUR).
+;;;
+;;; (send mybaker '(:act :knead))
+;;; ; No value
+;;; ERROR: Batter not ready. Can't knead dough.
+;;;
+;;; (send mybaker '(:add :milk))
+;;; ; No value
+;;; CAKE OBSERVER: Ingredients now (MILK FLOUR).
+;;;
+;;; (send mybaker '(:add :eggs))
+;;; ; No value
+;;; CAKE OBSERVER: Ingredients now (EGGS MILK FLOUR).
+;;; CAKE OBSERVER: Batter now complete!
+;;;
+;;; (send mybaker '(:add :pepper))
+;;; ; No value
+;;; ERROR: recipe error.
+;;;
+;;; (send mybaker '(:add :milk))
+;;; ; No value
+;;; ERROR: Batter already complete. Don't need MILK.
+;;;
+;;; (send mybaker '(:act :knead))
+;;; ; No value
+;;; CAKE OBSERVER: Completed tasks now (KNEAD).
+;;;
+;;; (send mybaker '(:act :bake))
+;;; ; No value
+;;; CAKE OBSERVER: Completed tasks now (BAKE KNEAD).
+;;;
+;;; (send mybaker '(:add :sugar))
+;;; ; No value
+;;; CAKE OBSERVER: Ingredients now (SUGAR EGGS MILK FLOUR).
+;;;
+;;; (send mybaker '(:add :candles))
+;;; ; No value
+;;; CAKE OBSERVER: Ingredients now (CANDLES SUGAR EGGS MILK FLOUR).
+;;; CAKE OBSERVER: Completed tasks now (DECORATE BAKE KNEAD).
+;;; CAKE OBSERVER: Cake is all done!
 
 (defpackage #:bakery
   ;; import namespaces from the following packages
@@ -202,17 +202,17 @@
   ;; Behavior Form
   ;; --------------------------------------------
   (match message
-    ; match adding batter ingredients only
+    ;; match adding batter ingredients only
     ((list :add ingredient) when
      (member ingredient (batter mycake))
 
-     (if (batter-p mycake) ; batter already done ?
+     (if (batter-p mycake)              ; batter already done ?
          (format t "~%ERROR: Batter complete. Don't need ~A." ingredient)
          (if (member ingredient (ingredients mycake))
              (format t "~%Error: Already have ~A in batter." ingredient)
              (setf (mixin mycake) ingredient)))) ; update cake here
 
-    ; match adding Icing ingredients but only after baking
+    ;; match adding Icing ingredients but only after baking
     ((list :add ingredient) when
      (and (member ingredient (icing mycake))
           (member :bake (dones mycake)))
@@ -221,7 +221,7 @@
          (format t "~%ERROR: Already have ~A on cake." ingredient)
          (setf (mixin mycake) ingredient))) ; update cake here
 
-    ; match adding Decoration ingredients but only after baking
+    ;; match adding Decoration ingredients but only after baking
     ((list :add ingredient) when
      (and (member ingredient (decoration mycake))
           (member :bake (dones mycake)))
@@ -229,19 +229,19 @@
      (if (member ingredient (ingredients mycake))
          (format t "~%ERROR: Already have ~A on cake." ingredient)
          (progn
-           (setf (mixin mycake) ingredient) ; update cake here
+           (setf (mixin mycake) ingredient)    ; update cake here
            (setf (action mycake) :decorate)))) ; update cake here
 
-    ; match actions
+    ;; match actions
     ((list :act todo) when
      (member todo (todos mycake))
 
-     (if (alldone-p mycake) ; cake already finished?
+     (if (alldone-p mycake)             ; cake already finished?
          (format t "~%ERROR: Cake is finished. Decline to do ~A." todo)
          (if (member todo (dones mycake)) ; todo already done?
              (format nil "~%ERROR: Already did ~A." todo)
 
-             (cond ((equal todo :bake) ; bake only after kneading dough
+             (cond ((equal todo :bake)  ; bake only after kneading dough
                     (if (not (member :knead (dones mycake)))
                         (format t "~%ERROR: Knead batter first. Can't do ~A."
                                 todo)
@@ -256,7 +256,7 @@
                     )
                    (t (format t "~%ERROR: Don't know ~A." todo ))))))
 
-    ; fall-through
+    ;; fall-through
     (_
      (format t "~%ERROR: recipe error."))
 
